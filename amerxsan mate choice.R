@@ -110,20 +110,21 @@ set.seed(77)
 bootstrap_results_df <- bootstrap_data(hyb_amer_intro, "pair", "cop", "intro_mean")
 bs_vib_mean =  bootstrap_data(hyb_amer_intro, "pair", "cop", "vib_mean")
 #plot the results
-plot_bootstrap_results <- function(bootstrap_results_df) {
+plot_bootstrap_results <- function(bootstrap_results_df, measure) {
   
-  ggplot(bootstrap_results_df, aes(x = Pair, y = Mean, color = Cop)) +
+  ggplot(bootstrap_results_df, aes(x = Pair, y = Mean, linetype = Cop,shape = Cop)) +
     geom_point(size = 3) +
     geom_errorbar(aes(ymin = CI_Lower, ymax = CI_Upper), width = 0.1) +
-    labs(x = "Cop", y = "mean intro duration", title = "Bootstrapped Means and CIs") +
+    labs(x = "Cop", y = measure, title = "Mate Choice -- Bootstrapped Means and CIs") +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     theme_classic()
 }
 
-plot_bootstrap_results(bootstrap_results_df)
+plot_bootstrap_results(bootstrap_results_df, "Visual Phase Duration (s)")
 graph2ppt(file = "amer_introdur_bs.pptx",width = 7,height = 5)
-plot_bootstrap_results(bs_vib_mean)
+plot_bootstrap_results(bs_vib_mean,"Multimodal Phase Duration (s)")
 graph2ppt(file = "amer_vibdur_bs.pptx",width = 7,height = 5)
+
 
 #### Fig. 1 compare amer and sans courtship----
 hyb_amer_clean_cop = subset(hyb_amer_clean, cop == 1)#so that male got to display full time vib
